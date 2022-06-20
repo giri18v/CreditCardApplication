@@ -1,0 +1,18 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+
+  h2:
+    console.enabled: true
+  jpa:
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+      generate-ddl: true
+      hibernate:
+        ddl-auto: create

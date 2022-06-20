@@ -1,0 +1,163 @@
+openapi: 3.0.1
+info:
+  title: CreditCardApplication
+  version: 0.0.0
+
+paths:
+  /creditCard/addNewCreditCard:
+    post:
+      tags:
+        - public
+      summary: It will store the Credit card details
+
+      operationId: addNewCreditCard
+      description: |
+        This api will add the  new Credit card information.
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditCardRequest'
+            examples:
+              CreditCardInformationRequest:
+                $ref: '#/components/examples/CreditCardInformationRequest'
+
+      responses:
+        '200':
+          description:
+            This will return the success response if credit card details were stored.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCardInformationResponse'
+              examples:
+                CreditCardInformationResponse:
+                  $ref: '#/components/examples/CreditCardInformationResponse'
+                InvalidCard:
+                  $ref: '#/components/examples/InvalidCreditCardValidationResponse'
+        '400':
+          description:
+            This will return the error response if credit card details were wrong.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /creditCard/getAllCreditCardDetails:
+    get:
+      tags:
+        - public
+      summary: It will retrieve the Credit card details
+
+      operationId: getCreditCardDetails
+      description: |
+        This api will retrieve Credit card information.
+
+      responses:
+        '200':
+          description:
+            This will return the success response if credit card details were stored.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllCreditCardDetails'
+              examples:
+                GetAllCreditCards:
+                  $ref: '#/components/examples/GetAllCreditCards'
+        '400':
+          description:
+            This will return the error response if credit card details were wrong.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        reason:
+          type: string
+
+
+    CreditCardRequest:
+      type: object
+      required:
+        - name
+        - cardNumber
+        - limit
+      properties:
+        name:
+          type: string
+          description: It holds the credit card name
+
+        cardNumber:
+          type: string
+          description: It holds the credit card number
+
+        limit:
+          type: string
+          description: It holds the credit card limit
+
+    CreditCardInformationResponse:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: It gives the status of the operation
+
+    GetAllCreditCardDetails:
+      type: object
+      properties:
+        CreditCardDetails:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: It holds the credit card name
+
+              cardNumber:
+                type: string
+                description: It holds the credit card number
+
+              limit:
+                type: string
+                description: It holds the credit card limit
+
+
+
+
+  examples:
+    CreditCardInformationRequest:
+      value:
+        name: HSBC
+        cardNumber: 1234567812345678
+        limit : "£100"
+
+
+    CreditCardInformationResponse:
+      value:
+        status: Successfully stored the credit card details
+
+    InvalidCreditCardValidationResponse:
+      value:
+        code: 100
+        reason: Invalid card number
+
+    GetAllCreditCards:
+      value:
+        name: HSBC
+        cardNumber: 1234567812345678
+        limit: "£100"
+
+
+
+

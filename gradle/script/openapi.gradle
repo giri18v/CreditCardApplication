@@ -1,0 +1,72 @@
+ext{
+
+
+    spec = "$rootDir/openapi.yaml"
+    generatedSourcesDir = "$buildDir/generated/sources/openapi"
+}
+
+
+openApiGenerate {
+
+    generatorName = "spring"
+    inputSpec = spec
+    outputDir = generatedSourcesDir
+    apiPackage = "${project.basePkg}.api"
+    modelPackage = "${project.basePkg}.model"
+    modelFilesConstrainedTo = []
+
+    configOptions = [
+
+            dateLibrary : "java8",
+            interfaceOnly : "true" ,
+            serializableModel : "true" ,
+            serializationLibrary : "jackson" ,
+            useBeanValidation : "true"
+
+
+    ]
+
+    systemProperties = [
+            apis    :   '' ,
+            models  :   '' ,
+            supportingFiles : ''
+
+    ]
+    
+    
+
+
+}
+
+
+
+sourceSets {
+    getByName("main") {
+        java {
+
+            srcDir("$generatedSourcesDir/src/main/java")
+        }
+
+    }
+
+}
+
+
+compileJava {
+
+    dependsOn 'openApiGenerate'
+
+
+}
+
+
+afterEvaluate { project ->
+    project.tasks.openApiGenerate {
+
+        inputs.file spec
+        outputs.dir generatedSourcesDir
+    }
+
+
+}
+
